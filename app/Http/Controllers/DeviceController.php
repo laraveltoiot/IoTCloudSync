@@ -16,4 +16,9 @@ class DeviceController extends Controller
     public function edit(Device $device) {
         return view('device.edit', compact('device'));
     }
+
+    public function show($id) {
+        $device = Device::findOrFail($id);
+        return view('device.show', compact('device'));
+    }
 }

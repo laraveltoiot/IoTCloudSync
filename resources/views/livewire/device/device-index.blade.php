@@ -81,6 +81,7 @@
                     @endif
                 </td>
                 <td class="py-4 pl-0 pr-4 text-right text-sm leading-6">
+                    <a href="{{ route('devices.show', $device->id) }}" class="text-blue-500 hover:underline mr-2">Show</a>
                     <a href="javascript:void(0)" wire:click="openEditModal({{ $device->id }})" class="text-blue-500 hover:underline">Edit</a>
                     <a href="javascript:void(0)" wire:click="openDeleteModal({{ $device->id }})" class="text-red-500 hover:underline">Delete</a>
                 </td>

@@ -20,6 +20,7 @@ Route::middleware([
         Route::get('/', [DeviceController::class, 'index'])->name('index'); // devices.index
         Route::get('/create', [DeviceController::class, 'create'])->name('create'); // devices.create
         Route::get('/{device}/edit', [DeviceController::class, 'edit'])->name('edit'); // devices.edit
+        Route::get('/{device}', [DeviceController::class, 'show'])->name('show'); // devices.show
     });
 
 });
