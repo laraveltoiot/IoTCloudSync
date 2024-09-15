@@ -12,7 +12,9 @@ class DeviceIndex extends Component
 {
     public $search = '';
     public $showCreateModal = false;
+
     protected $listeners = ['deviceCreated' => 'closeCreateModal', 'closeModal' => 'closeCreateModal'];
+
     public function openCreateModal(): void
     {
         $this->showCreateModal = true;
@@ -22,10 +24,25 @@ class DeviceIndex extends Component
     {
         $this->showCreateModal = false;
     }
+
+    public function highlightSearch($text): array|string|null
+    {
+        if ($this->search === '') {
+            return $text;
+        }
+
+        // Escape special characters for regular expression
+        $escapedSearch = preg_quote($this->search, '/');
+
+        // Replace matched text with highlighted HTML
+        return preg_replace('/(' . $escapedSearch . ')/i', '<span class="text-red-600">$1</span>', $text);
+    }
+
+
     public function render(): Application|Factory|View|\Illuminate\View\View
     {
         $devices = Device::where('user_id', auth()->id())
-            ->where(function($query) {
+            ->where(function ($query) {
                 $query->where('name', 'like', '%' . $this->search . '%')
                     ->orWhere('type', 'like', '%' . $this->search . '%')
                     ->orWhere('description', 'like', '%' . $this->search . '%');

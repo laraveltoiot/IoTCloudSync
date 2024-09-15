@@ -1,25 +1,25 @@
-<div class="dark:bg-gray-900 py-5">
-    <div class="flex justify-between items-center mb-2">
-        <h2 class="font-semibold leading-7 dark:text-white mb-5 text-xl">Devices</h2>
-        <button wire:click="openCreateModal" class="px-4 py-2 bg-blue-500 border border-transparent rounded-md
+<div class="dark:bg-gray-900 py-10">
+    <h2 class="px-4 text-base font-semibold leading-7 dark:text-white sm:px-6 lg:px-8">Devices</h2>
+
+    <!-- Search Input -->
+    <div class="px-4 sm:px-6 lg:px-8 mb-6 flex justify-between items-center">
+        <input type="text" wire:model.live="search" placeholder="Search..." class="flex-1 p-2 border border-gray-600 rounded mr-4 text-gray-900">
+        <button wire:click="openCreateModal" class="inline-flex items-center px-4 py-2 bg-blue-500 border border-transparent rounded-md
             font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-600 focus:bg-blue-700 active:bg-blue-900
             focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150">
             Create Device
         </button>
     </div>
+
     <!-- Modal for Create Device -->
     @if($showCreateModal)
         <div class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
             <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
                 <button wire:click="closeCreateModal" class="text-gray-400 hover:text-gray-600 absolute top-2 right-2">&times;</button>
-                @livewire('device.device-create')
+                @livewire('device-create')
             </div>
         </div>
     @endif
-
-    <div class="mb-6 flex items-center">
-        <input type="text" wire:model="search" placeholder="Search..." class="flex-1 p-2 border border-gray-600 rounded">
-    </div>
 
     <table class="mt-6 w-full whitespace-nowrap text-left">
         <colgroup>
@@ -43,11 +43,11 @@
             <tr>
                 <td class="py-4 pl-4 pr-8 sm:pl-6 lg:pl-8">
                     <div class="flex items-center gap-x-4">
-                        <div class="truncate text-sm font-medium leading-6 text-white">{{ $device->name }}</div>
+                        <div class="truncate text-sm font-medium leading-6 dark:text-white">{!! $this->highlightSearch($device->name) !!}</div>
                     </div>
                 </td>
-                <td class="py-4 pl-0 pr-8 text-sm leading-6 text-white">{{ $device->type }}</td>
-                <td class="py-4 pl-0 pr-8 text-sm leading-6 text-gray-400">{{ $device->description }}</td>
+                <td class="py-4 pl-0 pr-8 text-sm leading-6 dark:text-white">{!! $this->highlightSearch($device->type) !!}</td>
+                <td class="py-4 pl-0 pr-8 text-sm leading-6 dark:text-white">{!! $this->highlightSearch($device->description) !!}</td>
                 <td class="py-4 pl-0 pr-4 text-sm leading-6 text-center">
                     @if($device->is_online)
                         <span class="inline-flex items-center px-2 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-full">Online</span>
