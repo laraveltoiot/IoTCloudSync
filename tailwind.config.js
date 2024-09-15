@@ -18,6 +18,7 @@ export default {
             },
         },
     },
+    darkMode: 'class',
 
     plugins: [forms, typography],
 };
