@@ -12,8 +12,14 @@ class DeviceIndex extends Component
 {
     public $search = '';
     public $showCreateModal = false;
+    public $showEditModal = false;
+    public $editDeviceId;
 
-    protected $listeners = ['deviceCreated' => 'closeCreateModal', 'closeModal' => 'closeCreateModal'];
+    protected $listeners = [
+        'deviceCreated' => 'closeCreateModal',
+        'deviceUpdated' => 'closeEditModal',
+        'closeModal' => 'closeEditModal'
+    ];
 
     public function openCreateModal(): void
     {
@@ -23,6 +29,17 @@ class DeviceIndex extends Component
     public function closeCreateModal(): void
     {
         $this->showCreateModal = false;
+    }
+
+    public function openEditModal($deviceId): void
+    {
+        $this->editDeviceId = $deviceId;
+        $this->showEditModal = true;
+    }
+
+    public function closeEditModal(): void
+    {
+        $this->showEditModal = false;
     }
 
     public function highlightSearch($text): array|string|null

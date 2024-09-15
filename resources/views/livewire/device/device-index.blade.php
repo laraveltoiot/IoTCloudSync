@@ -17,6 +17,16 @@
         </div>
     @endif
 
+    <!-- Modal for Edit Device -->
+    @if($showEditModal)
+        <div class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative">
+                <button wire:click="closeEditModal" class="text-gray-400 hover:text-gray-600 absolute top-2 right-2">&times;</button>
+                @livewire('device.device-edit', ['deviceId' => $editDeviceId])
+            </div>
+        </div>
+    @endif
+
     <div class="mb-6 flex items-center">
         <input type="text" wire:model.live="search" placeholder="Search..." class="flex-1 p-2 border border-gray-600 rounded">
     </div>
@@ -56,7 +66,7 @@
                     @endif
                 </td>
                 <td class="py-4 pl-0 pr-4 text-right text-sm leading-6">
-                    <a href="{{ route('devices.edit', $device) }}" class="text-blue-500 hover:underline">Edit</a>
+                    <a href="javascript:void(0)" wire:click="openEditModal({{ $device->id }})" class="text-blue-500 hover:underline">Edit</a>
                 </td>
             </tr>
         @empty
