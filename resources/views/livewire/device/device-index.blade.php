@@ -1,12 +1,22 @@
 <div class="dark:bg-gray-900 py-5">
     <div class="flex justify-between items-center mb-2">
         <h2 class="font-semibold leading-7 dark:text-white mb-5 text-xl">Devices</h2>
-        <a href="{{ route('devices.create') }}" class="px-4 py-2 bg-blue-500 border border-transparent rounded-md
+        <button wire:click="openCreateModal" class="px-4 py-2 bg-blue-500 border border-transparent rounded-md
             font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-600 focus:bg-blue-700 active:bg-blue-900
             focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150">
             Create Device
-        </a>
+        </button>
     </div>
+    <!-- Modal for Create Device -->
+    @if($showCreateModal)
+        <div class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+                <button wire:click="closeCreateModal" class="text-gray-400 hover:text-gray-600 absolute top-2 right-2">&times;</button>
+                @livewire('device.device-create')
+            </div>
+        </div>
+    @endif
+
     <div class="mb-6 flex items-center">
         <input type="text" wire:model="search" placeholder="Search..." class="flex-1 p-2 border border-gray-600 rounded">
     </div>

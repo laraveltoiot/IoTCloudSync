@@ -38,8 +38,6 @@
     @livewireStyles
 </head>
 <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-<x-banner />
-
 <div class="min-h-screen flex">
     <x-sidebar />
 
@@ -50,6 +48,7 @@
 
         <!-- Page Content -->
         <main class="flex-1 p-6 overflow-y-auto">
+            <x-banner />
             {{ $slot }}
         </main>
     </div>

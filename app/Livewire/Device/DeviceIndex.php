@@ -11,6 +11,17 @@ use Livewire\Component;
 class DeviceIndex extends Component
 {
     public $search = '';
+    public $showCreateModal = false;
+    protected $listeners = ['deviceCreated' => 'closeCreateModal', 'closeModal' => 'closeCreateModal'];
+    public function openCreateModal(): void
+    {
+        $this->showCreateModal = true;
+    }
+
+    public function closeCreateModal(): void
+    {
+        $this->showCreateModal = false;
+    }
     public function render(): Application|Factory|View|\Illuminate\View\View
     {
         $devices = Device::where('user_id', auth()->id())
