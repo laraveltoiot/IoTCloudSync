@@ -6,14 +6,18 @@ use App\Models\Device;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Laravel\Jetstream\InteractsWithBanner;
 use Livewire\Component;
 
 class DeviceIndex extends Component
 {
+    use InteractsWithBanner;
     public $search = '';
     public $showCreateModal = false;
     public $showEditModal = false;
+    public $showDeleteModal = false;
     public $editDeviceId;
+    public $deleteDeviceId;
 
     protected $listeners = [
         'deviceCreated' => 'closeCreateModal',
@@ -40,6 +44,26 @@ class DeviceIndex extends Component
     public function closeEditModal(): void
     {
         $this->showEditModal = false;
+    }
+    public function openDeleteModal($deviceId): void
+    {
+        $this->deleteDeviceId = $deviceId;
+        $this->showDeleteModal = true;
+    }
+    public function closeDeleteModal(): void
+    {
+        $this->showDeleteModal = false;
+    }
+    public function deleteDevice(): void
+    {
+        $device = Device::findOrFail($this->deleteDeviceId);
+
+        // TODO: Check if the device has relationships that need to be handled before deleting
+        $device->delete();
+
+        $this->banner('Device deleted successfully');
+        $this->closeDeleteModal();
+        $this->dispatch('deviceDeleted'); // Emit event to refresh the list if needed
     }
 
     public function highlightSearch($text): array|string|null
