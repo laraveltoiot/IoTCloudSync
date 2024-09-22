@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('devices', function (Blueprint $table) {
+        Schema::create('things', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique();
             $table->string('name');
-            $table->string('type');
-            $table->text('description');
-            $table->json('metadata')->nullable();
-            $table->string('secret_key')->unique(); // Secret key unic
-            $table->foreignId('thing_id')->nullable()->constrained()->onDelete('cascade');
+            $table->text('description')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
@@ -30,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('devices');
+        Schema::dropIfExists('things');
     }
 };

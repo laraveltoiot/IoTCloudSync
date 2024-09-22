@@ -19,9 +19,13 @@ class Device extends Model
             $model->secret_key = Str::random(32);
         });
     }
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function thing(): BelongsTo
+    {
+        return $this->belongsTo(Thing::class);
     }
 }
