@@ -36,7 +36,8 @@
 
         <!-- Actions -->
         <div class="flex justify-end">
-            <button type="button" wire:click="$dispatch('closeModal')" class="mr-4 px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500">Cancel</button>
+            <button type="button" wire:click="$dispatch('deviceCreatedCloseModal')" class="mr-4 px-4 py-2 bg-gray-500 text-white rounded-md
+            hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500">Cancel</button>
             <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Create Device</button>
         </div>
     </form>

@@ -19,4 +19,9 @@ class Thing extends Model
     {
         return $this->hasMany(Device::class);
     }
+
+    public function variables(): HasMany
+    {
+        return $this->hasMany(CloudVariable::class);
+    }
 }
