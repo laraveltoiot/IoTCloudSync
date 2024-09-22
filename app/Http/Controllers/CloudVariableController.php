@@ -3,11 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\CloudVariable;
+use App\Models\Thing;
 
 class CloudVariableController extends Controller
 {
-    public function index() {
-        return view('cloudVariable.index');
+    public function index($thingId = null)
+    {
+        if ($thingId) {
+            // Fetch the Thing by ID
+            $thing = Thing::find($thingId);
+
+            if (!$thing) {
+                // If Thing not found, display a message
+                return view('cloudVariable.index', ['message' => 'Thing not found.']);
+            }
+
+            // Fetch Cloud Variables for the specified Thing
+            $cloudVariables = CloudVariable::where('thing_id', $thingId)->get();
+
+            return view('cloudVariable.index', compact('cloudVariables', 'thing'));
+        } else {
+            // No Thing ID provided
+            return view('cloudVariable.index', ['message' => 'No Thing selected.']);
+        }
     }
 
     public function create() {
