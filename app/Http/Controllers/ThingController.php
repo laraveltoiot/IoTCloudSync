@@ -11,7 +11,7 @@ class ThingController extends Controller
     }
 
     public function create() {
-        return view('device.create');
+        return view('things.create');
     }
     public function edit(Thing $thing) {
         return view('things.edit', compact('thing'));
