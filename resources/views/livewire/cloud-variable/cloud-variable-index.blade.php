@@ -77,7 +77,7 @@
                 <td class="py-4 pl-0 pr-8 text-sm leading-6 dark:text-white">{!! $this->highlightSearch($variable->type) !!}</td>
                 <td class="py-4 pl-0 pr-8 text-sm leading-6 dark:text-white">{!! $this->highlightSearch($variable->value) !!}</td>
                 <td class="py-4 pl-0 pr-4 text-right text-sm leading-6">
-                    <a href="#" class="text-blue-500 hover:underline mr-2">Show</a>
+                    <a href="{{ route('cv.show', $variable->id) }}" class="text-blue-500 hover:underline mr-2">Show</a>
                     <a href="javascript:void(0)" wire:click="openEditModal({{ $variable->id }})" class="text-blue-500 hover:underline mr-2">Edit</a>
                     <a href="javascript:void(0)" wire:click="openDeleteModal({{ $variable->id }})" class="text-red-500 hover:underline">Delete</a>
                 </td>

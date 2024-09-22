@@ -10,17 +10,17 @@ use Livewire\Component;
 
 class CloudVariableShow extends Component
 {
-    public $variableId;
-    public $variable;
+    public $cloudVariableId;
+    public $cloudVariable;
 
-    public function mount($variableId): void
+    public function mount($cloudVariableId): void
     {
-        $this->variableId = $variableId;
-
-        $this->variable = CloudVariable::with('thing')->findOrFail($variableId);
+        $this->cloudVariable = CloudVariable::with('thing')->findOrFail($cloudVariableId);
     }
     public function render(): Application|Factory|View|\Illuminate\View\View
     {
-        return view('livewire.cloud-variable.cloud-variable-show');
+        return view('livewire.cloud-variable.cloud-variable-show', [
+            'cloudVariable' => $this->cloudVariable,
+        ]);
     }
 }

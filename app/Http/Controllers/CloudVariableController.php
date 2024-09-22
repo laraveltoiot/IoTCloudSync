@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\CloudVariable;
-use App\Models\Thing;
 
 class CloudVariableController extends Controller
 {
