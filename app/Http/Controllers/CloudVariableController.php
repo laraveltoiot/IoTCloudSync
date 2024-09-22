@@ -9,27 +9,32 @@ class CloudVariableController extends Controller
 {
     public function index($thingId = null)
     {
-        if ($thingId) {
-            // Fetch the Thing by ID
-            $thing = Thing::find($thingId);
+        $user = auth()->user();
 
-            if (!$thing) {
-                // If Thing not found, display a message
-                return view('cloudVariable.index', ['message' => 'Thing not found.']);
-            }
+        // Fetch all Things associated with the authenticated user
+        $things = $user->things;
 
-            // Fetch Cloud Variables for the specified Thing
-            $cloudVariables = CloudVariable::where('thing_id', $thingId)->get();
-
-            return view('cloudVariable.index', compact('cloudVariables', 'thing'));
-        } else {
-            // No Thing ID provided
-            return view('cloudVariable.index', ['message' => 'No Thing selected.']);
+        if ($things->isEmpty()) {
+            return view('cloudVariable.index', ['message' => 'Please create a Thing first.']);
         }
+
+        // Fetch all Cloud Variables associated with the user's Things
+        $cloudVariables = CloudVariable::whereIn('thing_id', $things->pluck('id'))->get();
+
+        return view('cloudVariable.index', compact('cloudVariables'));
     }
 
-    public function create() {
-        return view('cloudVariable.create');
+
+    public function create()
+    {
+        $user = auth()->user();
+        $things = $user->things;
+
+        if ($things->isEmpty()) {
+            return redirect()->route('things.create')->with('message', 'Please create a Thing first.');
+        }
+
+        return view('cloudVariable.create', compact('things'));
     }
     public function edit(CloudVariable $cloudVariable) {
         return view('cloudVariable.edit', compact('cloudVariable'));

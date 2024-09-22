@@ -3,9 +3,7 @@
 namespace App\Livewire\CloudVariable;
 
 use App\Models\CloudVariable;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Application;
+use App\Models\Thing;
 use Laravel\Jetstream\InteractsWithBanner;
 use Livewire\Component;
 
@@ -26,11 +24,16 @@ class CloudVariableIndex extends Component
         'variableCreated' => 'closeCreateModal',
         'variableUpdated' => 'closeEditModal',
         'closeModal' => 'closeEditModal',
+        'closeCancelModal' => 'closeCreateModal',
+        'closeCancelEditModal' => 'closeEditModal',
     ];
-    public function mount($thingId): void
+    public function mount($thingId = null): void
     {
         $this->thingId = $thingId;
-        $this->thing = Thing::findOrFail($thingId);
+
+        if ($thingId) {
+            $this->thing = Thing::find($thingId);
+        }
     }
 
     public function openCreateModal(): void
@@ -86,8 +89,38 @@ class CloudVariableIndex extends Component
 
         return preg_replace('/(' . $escapedSearch . ')/i', '<span class="text-red-600">$1</span>', $text);
     }
-    public function render(): Application|Factory|View|\Illuminate\View\View
+    public function render()
     {
-        return view('livewire.cloud-variable.cloud-variable-index');
+        if ($this->thingId) {
+            // Fetch variables for the specific Thing
+            $variables = CloudVariable::where('thing_id', $this->thingId)
+                ->where(function($query) {
+                    $query->where('name', 'like', '%'.$this->search.'%')
+                        ->orWhere('type', 'like', '%'.$this->search.'%')
+                        ->orWhere('value', 'like', '%'.$this->search.'%');
+                })
+                ->get();
+        } else {
+            // Fetch variables for all Things associated with the user
+            $user = auth()->user();
+            $things = $user->things;
+
+            if ($things->isEmpty()) {
+                $variables = collect(); // Empty collection
+            } else {
+                $variables = CloudVariable::whereIn('thing_id', $things->pluck('id'))
+                    ->where(function($query) {
+                        $query->where('name', 'like', '%'.$this->search.'%')
+                            ->orWhere('type', 'like', '%'.$this->search.'%')
+                            ->orWhere('value', 'like', '%'.$this->search.'%');
+                    })
+                    ->get();
+            }
+        }
+
+        return view('livewire.cloud-variable.cloud-variable-index', [
+            'variables' => $variables,
+        ]);
     }
+
 }

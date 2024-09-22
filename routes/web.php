@@ -33,7 +33,7 @@ Route::middleware([
     });
 
     Route::prefix('cv')->name('cv.')->group(function () {
-        Route::get('/{thingId?}', [CloudVariableController::class, 'index'])->name('index');
+        Route::get('/', [CloudVariableController::class, 'index'])->name('index');
         Route::get('/create', [CloudVariableController::class, 'create'])->name('create');
         Route::get('/{cloudVariable}/edit', [CloudVariableController::class, 'edit'])->name('edit');
         Route::get('/{cloudVariable}', [CloudVariableController::class, 'show'])->name('show');
