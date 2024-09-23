@@ -19,6 +19,9 @@ return new class extends Migration
             $table->text('description');
             $table->json('metadata')->nullable();
             $table->string('secret_key')->unique(); // Secret key unic
+            $table->string('wifi_ssid')->nullable();
+            $table->text('wifi_password')->nullable();
+            $table->string('status')->default('offline');
             $table->foreignId('thing_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();

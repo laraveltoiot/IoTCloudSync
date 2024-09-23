@@ -8,7 +8,18 @@ use Illuminate\Support\Str;
 class Device extends Model
 {
 //    use HasFactory;
-    protected $fillable = ['uuid', 'name', 'type', 'description', 'metadata', 'secret_key', 'user_id'];
+    protected $fillable = [
+        'uuid',
+        'name',
+        'type',
+        'description',
+        'metadata',
+        'secret_key',
+        'user_id',
+        'wifi_ssid',
+        'wifi_password',
+        'status'
+    ];
 
     protected static function boot(): void
     {
@@ -27,5 +38,15 @@ class Device extends Model
     public function thing(): BelongsTo
     {
         return $this->belongsTo(Thing::class);
+    }
+
+    public function setWifiPasswordAttribute(string $value): void
+    {
+        $this->attributes['wifi_password'] = encrypt($value);
+    }
+
+    public function getWifiPasswordAttribute(string $value): string
+    {
+        return decrypt($value);
     }
 }
