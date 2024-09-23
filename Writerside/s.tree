@@ -8,4 +8,5 @@
 
     <toc-element topic="starter-topic.md"/>
     <toc-element topic="TODO.md"/>
+    <toc-element topic="Diagram.md"/>
 </instance-profile>
